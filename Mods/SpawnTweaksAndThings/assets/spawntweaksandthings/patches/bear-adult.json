@@ -1,0 +1,6 @@
+{
+		"file": "game:entities/animal/mammal/bear-adult.json",
+		"op": "replace",
+		"path": "/server/spawnconditions/worldgen/chance",
+		"value": 0.00035
+}

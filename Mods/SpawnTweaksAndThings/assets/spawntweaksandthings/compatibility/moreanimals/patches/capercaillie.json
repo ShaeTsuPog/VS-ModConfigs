@@ -1,0 +1,14 @@
+[
+    {
+        "file": "moreanimals:entities/capercaillie.json",
+        "op": "replace",
+        "path": "/server/spawnconditionsByType/worldgen",
+        "value": 0.015
+    },
+    {
+        "file": "moreanimals:entities/capercaillie.json",
+        "op": "replace",
+        "path": "/server/spawnconditionsByType/runtime",
+        "value": 0.0005
+    }
+]
