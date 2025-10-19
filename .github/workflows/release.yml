@@ -1,13 +1,10 @@
 name: Release Tweak Archive
 
-# Define the triggers for this workflow
 on:
-  # 1. Automatic Trigger: Runs when a new tag is pushed (e.g., v1.0.0)
   push:
     tags:
       - 'v*.*.*'
   
-  # 2. Manual Trigger: Allows running the workflow directly from the GitHub Actions UI
   workflow_dispatch:
     inputs:
       test_tag:
@@ -19,44 +16,51 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      # Required for softprops/action-gh-release to create and upload assets
-      contents: write 
+      contents: write # Required for creating tags and releases
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        # Need to fetch all history and tags for creating/pushing the tag
+        with:
+          fetch-depth: 0 
 
-      - name: Define Artifact Name
+      - name: Define Artifact Name and Tag
         id: vars
         run: |
-          # Determine the tag name: use the actual tag if 'push' event, otherwise use the manual input 'test_tag'
+          # Determine the tag name: use the actual tag if 'push' event, otherwise use the manual input
           TAG_NAME="${{ github.event_name == 'push' && github.ref_name || github.event.inputs.test_tag }}"
-          
-          # Set the ZIP file name for use in later steps
+          echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "ZIP_NAME=Tweaks-$TAG_NAME.zip" >> $GITHUB_OUTPUT
+
+      - name: Create Git Tag (Manual Run Only) 🏷️
+        if: github.event_name == 'workflow_dispatch'
+        run: |
+          TAG="${{ steps.vars.outputs.TAG_NAME }}"
+          
+          # Check if tag already exists to prevent failure
+          if git rev-parse $TAG >/dev/null 2>&1; then
+            echo "Tag $TAG already exists. Skipping tag creation."
+          else
+            # Create and push the tag to the remote
+            git tag $TAG
+            git push origin $TAG
+            echo "Successfully created and pushed tag $TAG"
+          fi
 
       - name: Zip 'TweaksAndStuff' Contents Only 🎯
         run: |
-          # Define the specific folder path we want to extract contents from
           TARGET_PATH="Mods/TweaksAndStuff"
-          
-          # Change directory *into* the target folder
-          # This ensures that the ZIP archive only contains the files/folders inside it.
           cd $TARGET_PATH 
-          
-          # Zip all contents ('.') and output the ZIP file 3 levels up to the repository root ('../../../')
           zip -r ../../../${{ steps.vars.outputs.ZIP_NAME }} .
 
       - name: Create and Upload Release Asset 🚀
         uses: softprops/action-gh-release@v1
         with:
-          # Use the tag name from the context/input for the release name
+          # Use the TAG_NAME variable for the release name
           name: Release ${{ steps.vars.outputs.TAG_NAME }}
           
-          # The files to attach to the release (path is relative to the repository root)
-          files: ${{ steps.vars.outputs.ZIP_NAME }}
+          # Use the tag that was either pushed initially or just created
+          tag_name: ${{ steps.vars.outputs.TAG_NAME }}
           
-          # If triggered by a tag push, the release is created on that tag.
-          # If triggered by workflow_dispatch, this action will create a new tag/release 
-          # using the current branch and the name provided, which is why it's best to 
-          # test on a separate branch and delete the test release afterwards.
+          files: ${{ steps.vars.outputs.ZIP_NAME }}
