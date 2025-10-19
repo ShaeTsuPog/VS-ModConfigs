@@ -1,0 +1,45 @@
+name: Release Tweak Archive
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Trigger on tag push, e.g., v1.0.0
+
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # Required to create the release and upload the asset
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Define Artifact Name
+        id: vars
+        # Define the ZIP name using the tag (e.g., 'Tweaks-v1.0.0.zip')
+        run: echo "ZIP_NAME=Tweaks-${{ github.ref_name }}.zip" >> $GITHUB_OUTPUT
+
+      - name: Zip 'TweaksAndStuff' Contents 🎯
+        run: |
+          # 1. Define the specific folder path
+          TARGET_PATH="Mods/TweaksAndStuff"
+          
+          # 2. Change directory *into* the target folder
+          # This ensures that the ZIP archive only contains the files/folders inside it.
+          cd $TARGET_PATH 
+          
+          # 3. Zip all contents ('.') and output the ZIP file to the root ('../../../')
+          # The resulting ZIP will be saved in the repository root for the next step to find.
+          # Note: '..' is relative to the current working directory.
+          # If the working dir is root/Mods/TweaksAndStuff, we need to go up 3 levels to reach root/.
+          zip -r ../../../${{ steps.vars.outputs.ZIP_NAME }} .
+
+      - name: Create and Upload Release Asset 🚀
+        uses: softprops/action-gh-release@v1
+        with:
+          # Use the tag name as the release name
+          name: Release ${{ github.ref_name }}
+          # Path to the artifact created in the previous step
+          files: ${{ steps.vars.outputs.ZIP_NAME }}
+          # This action automatically creates the release associated with the pushed tag.
