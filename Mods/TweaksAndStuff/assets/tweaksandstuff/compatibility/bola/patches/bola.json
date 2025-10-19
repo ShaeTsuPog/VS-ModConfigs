@@ -1,0 +1,8 @@
+[
+    {
+        "file": "bola:itemtypes/bola.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 12
+    }
+]

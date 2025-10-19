@@ -1,0 +1,13 @@
+{
+  "type": "content",
+  "modid": "tweaksandstuff",
+  "name": "Vanilla and modded tweaks and stuff.",
+  "authors": [
+    "ShaeTsu"
+  ],
+  "description": "Personal tweaks.",
+  "version": "1.0.0",
+  "Side": "Universal",
+  "RequiredOnClient": true,
+  "RequiredOnServer": true
+}
