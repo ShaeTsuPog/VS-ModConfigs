@@ -3,7 +3,21 @@ name: Release Tweak Archive
 on:
   push:
     tags:
-      - 'v*.*.*' # Trigger on tag push, e.g., v1.0.0
+      - "v*.*.*" # Trigger on tag push, e.g., v1.0.0
+
+      # 🎯 ADD THIS BLOCK for manual testing
+  workflow_dispatch:
+    inputs:
+      target_branch:
+        description: "Branch to run the workflow on"
+        required: true
+        default: ${{ github.ref_name }}
+
+      # Optional: Add a test tag version input for simulation
+      test_tag:
+        description: "Simulated Tag Version (e.g., v1.0.0-test)"
+        required: true
+        default: "v0.0.0-test"
 
 jobs:
   build-and-release:
@@ -24,11 +38,11 @@ jobs:
         run: |
           # 1. Define the specific folder path
           TARGET_PATH="Mods/TweaksAndStuff"
-          
+
           # 2. Change directory *into* the target folder
           # This ensures that the ZIP archive only contains the files/folders inside it.
           cd $TARGET_PATH 
-          
+
           # 3. Zip all contents ('.') and output the ZIP file to the root ('../../../')
           # The resulting ZIP will be saved in the repository root for the next step to find.
           # Note: '..' is relative to the current working directory.
