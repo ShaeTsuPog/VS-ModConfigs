@@ -16,51 +16,50 @@ jobs:
   build-and-release:
     runs-on: ubuntu-latest
     permissions:
-      contents: write # Required for creating tags and releases
+      contents: write 
 
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        # Need to fetch all history and tags for creating/pushing the tag
         with:
           fetch-depth: 0 
 
       - name: Define Artifact Name and Tag
         id: vars
         run: |
-          # Determine the tag name: use the actual tag if 'push' event, otherwise use the manual input
           TAG_NAME="${{ github.event_name == 'push' && github.ref_name || github.event.inputs.test_tag }}"
           echo "TAG_NAME=$TAG_NAME" >> $GITHUB_OUTPUT
           echo "ZIP_NAME=Tweaks-$TAG_NAME.zip" >> $GITHUB_OUTPUT
 
+      # --- START: The most reliable way to zip contents only ---
+      - name: Zip 'TweaksAndStuff' Contents Only 🎯
+        run: |
+          TARGET_DIR="Mods/TweaksAndStuff"
+          ZIP_FILE="${{ steps.vars.outputs.ZIP_NAME }}"
+          
+          # 1. Zip files directly from the TARGET_DIR
+          # 2. Use -j (--junk-paths) to strip the directory path ("Mods/TweaksAndStuff/") from the files in the archive.
+          #    This ensures only the contents are at the top level of the zip.
+          # 3. Use -r (recursive) to include all subdirectories and files.
+          zip -r -j $ZIP_FILE $TARGET_DIR/*
+
+      # --- END: The most reliable way to zip contents only ---
+          
       - name: Create Git Tag (Manual Run Only) 🏷️
         if: github.event_name == 'workflow_dispatch'
         run: |
           TAG="${{ steps.vars.outputs.TAG_NAME }}"
-          
-          # Check if tag already exists to prevent failure
           if git rev-parse $TAG >/dev/null 2>&1; then
             echo "Tag $TAG already exists. Skipping tag creation."
           else
-            # Create and push the tag to the remote
             git tag $TAG
             git push origin $TAG
             echo "Successfully created and pushed tag $TAG"
           fi
 
-      - name: Zip 'TweaksAndStuff' Contents Only 🎯
-        run: |
-          TARGET_PATH="Mods/TweaksAndStuff"
-          cd $TARGET_PATH 
-          zip -r ../../../${{ steps.vars.outputs.ZIP_NAME }} .
-
       - name: Create and Upload Release Asset 🚀
         uses: softprops/action-gh-release@v1
         with:
-          # Use the TAG_NAME variable for the release name
           name: Release ${{ steps.vars.outputs.TAG_NAME }}
-          
-          # Use the tag that was either pushed initially or just created
           tag_name: ${{ steps.vars.outputs.TAG_NAME }}
-          
           files: ${{ steps.vars.outputs.ZIP_NAME }}
