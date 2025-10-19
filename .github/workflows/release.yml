@@ -1,0 +1,62 @@
+name: Release Tweak Archive
+
+# Define the triggers for this workflow
+on:
+  # 1. Automatic Trigger: Runs when a new tag is pushed (e.g., v1.0.0)
+  push:
+    tags:
+      - 'v*.*.*'
+  
+  # 2. Manual Trigger: Allows running the workflow directly from the GitHub Actions UI
+  workflow_dispatch:
+    inputs:
+      test_tag:
+        description: 'Simulated Tag Version (e.g., v1.0.0-test)'
+        required: true
+        default: 'v0.0.0-test'
+        
+jobs:
+  build-and-release:
+    runs-on: ubuntu-latest
+    permissions:
+      # Required for softprops/action-gh-release to create and upload assets
+      contents: write 
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Define Artifact Name
+        id: vars
+        run: |
+          # Determine the tag name: use the actual tag if 'push' event, otherwise use the manual input 'test_tag'
+          TAG_NAME="${{ github.event_name == 'push' && github.ref_name || github.event.inputs.test_tag }}"
+          
+          # Set the ZIP file name for use in later steps
+          echo "ZIP_NAME=Tweaks-$TAG_NAME.zip" >> $GITHUB_OUTPUT
+
+      - name: Zip 'TweaksAndStuff' Contents Only 🎯
+        run: |
+          # Define the specific folder path we want to extract contents from
+          TARGET_PATH="Mods/TweaksAndStuff"
+          
+          # Change directory *into* the target folder
+          # This ensures that the ZIP archive only contains the files/folders inside it.
+          cd $TARGET_PATH 
+          
+          # Zip all contents ('.') and output the ZIP file 3 levels up to the repository root ('../../../')
+          zip -r ../../../${{ steps.vars.outputs.ZIP_NAME }} .
+
+      - name: Create and Upload Release Asset 🚀
+        uses: softprops/action-gh-release@v1
+        with:
+          # Use the tag name from the context/input for the release name
+          name: Release ${{ steps.vars.outputs.TAG_NAME }}
+          
+          # The files to attach to the release (path is relative to the repository root)
+          files: ${{ steps.vars.outputs.ZIP_NAME }}
+          
+          # If triggered by a tag push, the release is created on that tag.
+          # If triggered by workflow_dispatch, this action will create a new tag/release 
+          # using the current branch and the name provided, which is why it's best to 
+          # test on a separate branch and delete the test release afterwards.
