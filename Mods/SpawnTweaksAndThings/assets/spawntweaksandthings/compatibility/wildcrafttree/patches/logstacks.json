@@ -1,0 +1,26 @@
+[
+    {
+        "file": "wildcrafttree:blocktypes/wood/woodtyped/log.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "wildcrafttree:blocktypes/wood/woodtyped/log-debarked.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "wildcrafttree:blocktypes/wood/woodtyped/log-section.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "wildcrafttree:blocktypes/wood/woodtyped/thintrunk.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    }
+]
