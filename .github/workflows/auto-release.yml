@@ -18,24 +18,25 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Set up Python
-        uses: actions/setup-python@v4
+      - name: Read and calculate new version
+        id: get_version
+        run: |
+          VERSION=$(jq -r '.version' Mods/TweaksAndStuff/modinfo.json)
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+          IFS='.' read -r MAJ MIN PAT <<< "$VERSION"
+          PAT=$((PAT + 1))
+          NEW_VERSION="$MAJ.$MIN.$PAT"
+          echo "new_version=$NEW_VERSION" >> $GITHUB_OUTPUT
+
+      - name: Update version in modinfo.json
+        uses: restackio/update-json-file-action@2.1
         with:
-          python-version: '3.x'
-
-      - name: Ensure scripts are executable
-        run: |
-          python -V
-
-      - name: Bump version
-        id: bump
-        run: |
-          python scripts/bump_version.py Mods/TweaksAndStuff/modinfo.json > new_version.txt
-          echo "new_version=$(cat new_version.txt)" >> $GITHUB_OUTPUT
+          file: Mods/TweaksAndStuff/modinfo.json
+          fields: "{\"version\": \"${{ steps.get_version.outputs.new_version }}\"}"
 
       - name: Commit bumped version
         env:
-          NEW_VERSION: ${{ steps.bump.outputs.new_version }}
+          NEW_VERSION: ${{ steps.get_version.outputs.new_version }}
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
