@@ -1,0 +1,20 @@
+[
+    {
+        "file": "floralzoneseastasiaticregion:blocktypes/wood/woodtyped/thintrunk.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzoneseastasiaticregion:blocktypes/wood/woodtyped/log-quad.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzoneseastasiaticregion:blocktypes/wood/woodtyped/log-quad-corner.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    }
+]

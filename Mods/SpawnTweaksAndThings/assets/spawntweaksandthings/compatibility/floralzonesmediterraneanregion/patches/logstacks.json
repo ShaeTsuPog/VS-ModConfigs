@@ -1,0 +1,32 @@
+[
+    {
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-debarked.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-section.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-quad.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    },
+    {
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-quad-corner.json",
+        "op": "replace",
+        "path": "/maxStackSize",
+        "value": 64
+    }
+]
