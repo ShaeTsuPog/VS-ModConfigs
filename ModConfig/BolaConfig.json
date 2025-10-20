@@ -1,0 +1,10 @@
+{
+  "immobilizationTime": 20.0,
+  "tiedImmobilizationTime": 400.0,
+  "maxStackSize": 12,
+  "chanceReturnRopeOnHitGround": 0.25,
+  "chanceReturnFourRopeOnHitGround": 0.5,
+  "chanceReturnTwoRopeOnHitNotBolaeable": 0.33,
+  "chanceReturnRopeOnHit": 0.0,
+  "returnRopesOnHitAmount": 0
+}
