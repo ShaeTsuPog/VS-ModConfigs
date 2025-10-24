@@ -2,13 +2,13 @@
     {
         "file": "floralzonesneozeylandicregion:blocktypes/wood/woodtyped/log.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {
         "file": "floralzonesneozeylandicregion:blocktypes/wood/woodtyped/log-debarked.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {

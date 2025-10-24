@@ -2,7 +2,7 @@
     {
         "file": "floralzoneseastasiaticregion:blocktypes/wood/woodtyped/thintrunk.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {

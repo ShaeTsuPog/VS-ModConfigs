@@ -2,13 +2,13 @@
     {
         "file": "moreanimals:entities/capercaillie.json",
         "op": "replace",
-        "path": "/server/spawnconditionsByType/worldgen",
+        "path": "/server/spawnconditionsByType/*-cock/worldgen/TriesPerChunk/avg",
         "value": 0.015
     },
     {
         "file": "moreanimals:entities/capercaillie.json",
         "op": "replace",
-        "path": "/server/spawnconditionsByType/runtime",
+        "path": "/server/spawnconditionsByType/*-cock/runtime/chance",
         "value": 0.0005
     }
 ]

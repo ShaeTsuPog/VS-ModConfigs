@@ -1,0 +1,20 @@
+[
+	{
+        "code": "game:dye-black",
+        "sealHours": 8,
+        "ingredients": [
+			{ "type": "item", "code": "game:waterportion", "litres": 5 },
+			{ "type": "item", "code": "game:powder-charcoal", "quantity": 2 }
+		],
+		"output": { "type": "item", "code": "game:dye-black", "litres": 2 }
+    },
+	{
+        "code": "game:dye-black",
+        "sealHours": 8,
+        "ingredients": [
+			{ "type": "item", "code": "game:waterportion", "litres": 5 },
+			{ "type": "item", "code": "dyecoaldye:powder-coal", "quantity": 2 }
+		],
+		"output": { "type": "item", "code": "game:dye-black", "litres": 2 }
+    }
+]

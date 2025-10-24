@@ -2,19 +2,19 @@
     {
         "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {
         "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-debarked.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {
-        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/log-section.json",
+        "file": "floralzonesmediterraneanregion:blocktypes/wood/woodtyped/thintrunk.json",
         "op": "replace",
-        "path": "/maxStackSize",
+        "path": "/maxstacksize",
         "value": 64
     },
     {
