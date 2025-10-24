@@ -1,0 +1,8 @@
+[
+    {
+        "file": "game:itemtypes/resource/seeds.json",
+        "op": "replace",
+        "path": "/maxstacksize",
+        "value": 256
+    }
+]
