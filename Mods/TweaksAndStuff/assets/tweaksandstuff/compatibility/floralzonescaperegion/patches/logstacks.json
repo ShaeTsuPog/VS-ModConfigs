@@ -32,7 +32,7 @@
     {
         "file": "floralzonescaperegion:blocktypes/wood/woodtyped/thintrunk.json",
         "op": "replace",
-        "path": "/maxstackSize",
+        "path": "/maxstacksize",
         "value": 64
     }
 ]
