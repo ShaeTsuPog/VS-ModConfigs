@@ -6,7 +6,7 @@
     "ShaeTsu"
   ],
   "description": "Personal tweaks.",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "Side": "Universal",
   "RequiredOnClient": true,
   "RequiredOnServer": true
