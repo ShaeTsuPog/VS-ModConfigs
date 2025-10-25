@@ -1,0 +1,8 @@
+[
+    {
+        "file": "wildcraftfruit:itemtypes/resources/seeds.json",
+        "op": "replace",
+        "path": "/maxstacksize",
+        "value": 256
+    }
+]
